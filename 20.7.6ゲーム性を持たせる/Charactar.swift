@@ -13,13 +13,11 @@ class Character {
     
     var name : String
     var level : Int
-    var actionNo : Int
     var counter : Int
     
-    init(name n : String,level l: Int, actionNo a : Int , counter c : Int){
+    init(name n : String,level l: Int , counter c : Int){
         self.name = n
         self.level = l
-        self.actionNo = a
         self.counter = c
     }
 }
@@ -30,32 +28,23 @@ class characterCsvData{
     var comment0 : String
     var button1 : String
     var button2 : String
-    var image1 : String
-    var image2 : String
-    var comment1 : String
-    var comment2 : String
-    var point1 : Int
-    var point2 : Int
+    
+   
     
         //イニシャライザ。muramuraDataをインスタンス化して利用するとき、let a = muramuraData(sentenceData:b) と宣言すれば、sentenceValueにはbが入る。
-    init(image0 i0:String,comment0 c0:String,button1 b1:String,button2 b2:String,image1 i1 : String ,image2 i2 : String , comment1 c1 :String,comment2 c2 :String,point1 p1:Int ,point2 p2:Int) {
+    init(image0 i0:String,comment0 c0:String,button1 b1:String,button2 b2:String) {
             image0 = i0
             comment0 = c0
             button1 = b1
             button2 = b2
-            image1 = i1
-            image2 = i2
-        comment1 = c1
-        comment2 = c2
-        point1 = p1
-        point2 = p2
+           
         }
     }
 class characterCsvDM{
         
         static let sharedInstance = characterCsvDM()
         //空の配列。型だけ指定する。
-    var objectData = characterCsvData(image0: "", comment0: "", button1: "", button2: "", image1: "", image2: "", comment1: "", comment2: "", point1: 0, point2: 0)
+    var objectData = characterCsvData(image0: "", comment0: "", button1: "", button2: "")
         // 取り出す文の番号を入れる変数
         var index: Int = 0
         
@@ -68,7 +57,7 @@ class characterCsvDM{
             csvLines.removeAll()
             //muramuraLevelは0〜10.kakuは1〜12これが日数によるレベル分け。これに10をかけることで、レベルに応じて10個の文章が変わる。
             let character = BossViewController.character
-           index = character.level * 100 + character.counter * 10
+           index = character.level * 400 + character.counter * 10
            
             var n = ""
             switch character.name {
@@ -100,7 +89,7 @@ class characterCsvDM{
                     if let value1 : Int = Int(csvLines[index + 8]) {point1 = value1}
                     if let value2 : Int = Int(csvLines[index + 9]) {point2 = value2}
                 
-                    objectData  = characterCsvData(image0: csvLines[index], comment0: csvLines[index + 1], button1: csvLines[index + 2], button2: csvLines[index + 3],image1: csvLines[index + 4], image2: csvLines[index + 5], comment1: csvLines[index + 6], comment2: csvLines[index + 7], point1: point1, point2: point2)
+                    objectData  = characterCsvData(image0: csvLines[index], comment0: csvLines[index + 1], button1: csvLines[index + 2], button2: csvLines[index + 3])
             
                     //配列にobjectDataが入る。つまり、読み込んだ文が配列に追加される。こうやってどんどん配列に文が入っていく。
             //self.csvDataArray.append(objectData)
