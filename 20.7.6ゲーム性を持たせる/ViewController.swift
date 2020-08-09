@@ -117,7 +117,7 @@ let button = UIButton()
                   return
           }
           
-         point = ud.integer(forKey: "point")
+         
          
          setUpLayout()
           
