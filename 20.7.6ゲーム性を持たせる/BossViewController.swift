@@ -11,20 +11,20 @@ import UIKit
 class BossViewController: UIViewController {
     
     
-    static var character = Character(name: "", level: 0, actionNo: 0, counter: 0)
-    static var actionNo = 0
+    static var character = Character(name: "", level: 0,counter: 0)
+    //static var actionNo = 0
     var counter = 0
     
     let ud = UserDefaults.standard
     
-    var Data = characterCsvData(image0: "", comment0: "", button1: "", button2: "", image1: "", image2: "", comment1: "", comment2: "", point1: 0, point2: 0)
+    var Data = characterCsvData(image0: "", comment0: "", button1: "", button2: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
          counter = ud.integer(forKey: "counter.b")
-       
-        BossViewController.character = Character(name: "ボス猿", level:ViewController.level, actionNo:BossViewController.actionNo,counter:counter)
+       print(counter)
+        BossViewController.character = Character(name: "ボス猿", level:ViewController.level,counter:counter)
         characterCsvDM.sharedInstance.loadData()
         
         if let d = characterCsvDM.sharedInstance.nextData() {
@@ -41,14 +41,8 @@ class BossViewController: UIViewController {
          let width = view.bounds.size.width
          let height = view.bounds.size.height
          
-        var d = ""
-        switch BossViewController.actionNo {
-        case 0 : d = Data.image0
-        case 1 : d = Data.image1
-        case 2 : d = Data.image2
-        default : d = "エラー"
-        }
-        let image = UIImage(named: d)
+        
+        let image = UIImage(named: Data.image0)
         
          imageView.frame = CGRect(x:(width-(height/2))/2+25,y:50,width: (height/2)-50,height:(height/2)-50)
          
@@ -84,30 +78,19 @@ class BossViewController: UIViewController {
     var point = 0
     
     @objc func button1(_ sender:UIButton) {
-        BossViewController.actionNo += 1
-        if counter < 5 { counter += 1}
+        if counter < 39 { counter += 1}
         ud.set(counter, forKey: "counter.b")
-        point = ud.integer(forKey: "point")
-        point += Data.point1
-        ud.set(point, forKey: "point")
-        print(point)
         self.loadView()
         self.viewDidLoad()
     }
 
     @objc func button2(_ sender:UIButton) {
-        BossViewController.actionNo += 2
-        if counter < 5 { counter += 1}
+        if counter < 39 { counter += 1}
         ud.set(counter, forKey: "counter.b")
-        point = ud.integer(forKey: "point")
-        point += Data.point2
-        ud.set(point, forKey: "point")
-        print(point)
         self.loadView()
         self.viewDidLoad()
     }
     @objc func back(_ sender:UIButton) {
-        BossViewController.actionNo = 0
         
         self.dismiss(animated: true, completion:nil)
     }
@@ -115,10 +98,10 @@ class BossViewController: UIViewController {
    func setUpLayout(){
                 monkeyImage()
                 view.addSubview(textLabel)
-            if Data.button1 != "" && BossViewController.actionNo == 0 {
+            if Data.button1 != "" {
                view.addSubview(button1)
             }
-            if Data.button2 != "" && BossViewController.actionNo == 0{
+            if Data.button2 != ""{
                view.addSubview(button2)
             }
             view.addSubview(backButton)
@@ -126,14 +109,8 @@ class BossViewController: UIViewController {
                let height = view.bounds.size.height
                
     
-                var d = ""
-                switch BossViewController.actionNo {
-                case 0 : d = Data.comment0
-                case 1 : d = Data.comment1
-                case 2 : d = Data.comment2
-                default : d = "エラー"
-                }
-                textLabel.text  = d
+               
+                textLabel.text  = Data.comment0
                textLabel.frame = CGRect(x:0, y:height*0.4, width:width, height:height/4)
                      
                textLabel.font = UIFont.systemFont(ofSize: height/40)
@@ -143,20 +120,20 @@ class BossViewController: UIViewController {
                 button1.setTitle(Data.button1, for: .normal)
                button1.setTitleColor(.black, for: .normal)
               button1.layer.borderWidth = 2
-                button1.layer.borderColor = UIColor.gray.cgColor
+                button1.layer.borderColor = UIColor.red.cgColor
                button1.layer.cornerRadius = 10
                button1.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-                button1.setTitleColor(UIColor.gray, for: .normal)
-    button1.frame = CGRect(x: width/2-width/7, y: height*6.2/9, width: width*2/7, height: height / 20)
+                button1.setTitleColor(UIColor.red, for: .normal)
+    button1.frame = CGRect(x: width/2-width*4/9, y: height*6.2/9, width: width*8/9, height: height / 20)
                
     button2.setTitle(Data.button2, for: .normal)
                 button2.setTitleColor(.black, for: .normal)
               button2.layer.borderWidth = 2
-                button2.layer.borderColor = UIColor.gray.cgColor
+                button2.layer.borderColor = UIColor.blue.cgColor
                 button2.layer.cornerRadius = 10
                 button2.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-                button2.setTitleColor(UIColor.gray, for: .normal)
-    button2.frame = CGRect(x: width/2-width/7, y: height*7/9, width: width*2/7, height: self.view.frame.height / 20)
+                button2.setTitleColor(UIColor.blue, for: .normal)
+    button2.frame = CGRect(x:  width/2-width*4/9, y: height*7/9, width: width*8/9, height: self.view.frame.height / 20)
     
                 backButton.setTitle("戻る", for: .normal)
                 backButton.setTitleColor(.black, for: .normal)
