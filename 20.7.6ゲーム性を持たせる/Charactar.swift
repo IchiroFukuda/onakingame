@@ -57,7 +57,7 @@ class characterCsvDM{
             csvLines.removeAll()
             //muramuraLevelは0〜10.kakuは1〜12これが日数によるレベル分け。これに10をかけることで、レベルに応じて10個の文章が変わる。
             let character = BossViewController.character
-           index = character.level * 400 + character.counter * 10
+            index = BossViewController.stage * 100 + character.counter * 10
            
             var n = ""
             switch character.name {
