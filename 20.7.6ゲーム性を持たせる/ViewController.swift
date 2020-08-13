@@ -11,18 +11,8 @@ import UIKit
 class ViewController: UIViewController {
 
     let ud = UserDefaults.standard
-    
-private var csvLabel: UILabel = {
-    let label = UILabel()
-    //label.setLabel(title: R.string.localizable.mailAddress())
-    return label
-}()
-
-    private var pointLabel: UILabel = {
-        let label = UILabel()
-        //label.setLabel(title: R.string.localizable.mailAddress())
-        return label
-    }()
+ 
+   
     
     private lazy var timerDay: UILabel = {
         let label = UILabel()
@@ -32,19 +22,14 @@ private var csvLabel: UILabel = {
     
     weak var timer : Timer!
     
-private var topButton:UIButton = {
-let button = UIButton()
-      button.addTarget(self, action: #selector(topButton(_:)), for: UIControl.Event.touchUpInside)
-      return button
-}()
 
-    private var restartButton:UIButton = {
+    
+    private var mainButton:UIButton = {
     let button = UIButton()
-          button.addTarget(self, action: #selector(restartButton(_:)), for: UIControl.Event.touchUpInside)
+          button.addTarget(self, action: #selector(mainButton(_:)), for: UIControl.Event.touchUpInside)
           return button
     }()
-
-    @objc func topButton(_ sender:UIButton) {
+    @objc func mainButton(_ sender:UIButton) {
         let userDefaults = UserDefaults.standard
         
         let onakinSwitch = userDefaults.bool(forKey: "onakinSwitch")
@@ -56,6 +41,12 @@ let button = UIButton()
         self.present(secondViewController, animated: true, completion: nil)
     }
     
+    private var restartButton:UIButton = {
+    let button = UIButton()
+          button.addTarget(self, action: #selector(restartButton(_:)), for: UIControl.Event.touchUpInside)
+          return button
+    }()
+    
     @objc func restartButton(_ sender:UIButton) {
         
         resetAction()
@@ -65,6 +56,25 @@ let button = UIButton()
         let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "toBoss") as! BossViewController
         self.present(secondViewController, animated: true, completion: nil)
     }
+    
+    func startAction(){
+             let userDefaults = UserDefaults.standard
+     
+             
+             let dateFormater = DateFormatter()
+             dateFormater.locale = Locale(identifier: "ja_JP")
+             dateFormater.dateFormat = "yyyy/MM/dd HH:mm:ss"
+             let date = dateFormater.string(from: Date())
+    
+             userDefaults.set(date,forKey: "start")
+         
+             timerStart()
+        
+            self.ud.set(true,forKey: "onakinSwitch")
+          
+         }
+    
+    
     func resetAction(){
         if self.timer != nil{
          self.timer.invalidate()
@@ -83,7 +93,7 @@ let button = UIButton()
     }
 
     
-
+/*
     private lazy var onakinTime: UILabel = {
         let label = UILabel()
         
@@ -92,11 +102,11 @@ let button = UIButton()
         
         return label
     }()
-
+*/
     static var level = 0
     static var textNo = 0
     
-    
+    /*
     let imageView = UIImageView()
     func monkeyImage(){
         // ⦿ UIViewの上にUIImageViewを貼り付けます。
@@ -120,7 +130,7 @@ let button = UIButton()
         
          self.view.addSubview(imageView)
     }
-    
+    */
     var point = 0
     
     override func viewDidLoad() {
@@ -133,10 +143,10 @@ let button = UIButton()
     override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
         print("viewWillAppear")
-        monkeyImage()
+        //monkeyImage()
         
         let onakinSwitch = ud.bool(forKey: "onakinSwitch")
-        print("onakinSwitch:\(onakinSwitch)")
+        
         if self.timer != nil{
                 self.timer.invalidate()
         
@@ -146,18 +156,10 @@ let button = UIButton()
             timerStart()
             }
             
-         csvDataManager.sharedInstance.loadData()
-          
-          guard let Data = csvDataManager.sharedInstance.nextData()
-              else {
-                  return
-          }
-          
-         
-         
+        
          setUpLayout()
           
-          csvLabel.text = "\(Data.sentenceValue)"
+          
     }
     var startTime = Date()
     
@@ -181,30 +183,60 @@ let button = UIButton()
         }
     }
     
+
+     var timerDayText = "0"
     
-    func startAction(){
-             let userDefaults = UserDefaults.standard
+     static var day = 0
      
-             
-             let dateFormater = DateFormatter()
-             dateFormater.locale = Locale(identifier: "ja_JP")
-             dateFormater.dateFormat = "yyyy/MM/dd HH:mm:ss"
-             let date = dateFormater.string(from: Date())
-    
-             userDefaults.set(date,forKey: "start")
-         
-             timerStart()
+     @objc func timerCounter(){
+                 
+                 let f = DateFormatter()
+                 f.dateStyle = .short
+                 f.timeStyle = .none
+                 f.locale = Locale(identifier: "ja_JP")
+                 let strStartTime = f.string(from: startTime)
+                 f.dateFormat = "yyyy/MM/dd"
+                 var mutCurrentTime : TimeInterval = 0
+                 if let mutStartTime = f.date(from: strStartTime) {
+                   mutCurrentTime = Date().timeIntervalSince(mutStartTime)
+                    // print("strStartTime:\(strStartTime)")
+     //print("mutStartTime:\(mutStartTime)")
+                     
+                 }
+                 let mutatedDay = (Int)(fmod((mutCurrentTime/86400),365))
+                 print("mutCurrentTime:\(mutCurrentTime)")
+                 ViewController.day = mutatedDay
+                 /*
+                 let currentTime = Date().timeIntervalSince(startTime)
+                 
+                 let day = (Int)(fmod((currentTime/86400),365))
+                 let hour = (Int)(fmod((currentTime/3600),24))
+                 let minute = (Int)(fmod((currentTime/60),60))
+                 //let second = (Int)(fmod(currentTime,60))
+                 
+                 let sHour = String(format:"%02d",hour)
+                 let sMinute = String(format:"%02d",minute)
+                 //let sSecond = String(format:"%02d",second)
+                 */
         
-            self.ud.set(true,forKey: "onakinSwitch")
-          
-         }
+                 timerDayText = "\(1 + mutatedDay)"
+                 
+                 
+                 setUpLayout()
+                 /*
+                      
+                 timerHour.text = sHour
+                 timerMinute.text = sMinute
+                 timerSecond.text = sSecond
+                 */
+             }
     
     
     func setUpLayout(){
         
         //view.addSubview(csvLabel)
         //view.addSubview(pointLabel)
-        view.addSubview(topButton)
+        view.addSubview(mainButton)
         view.addSubview(restartButton)
         
         view.addSubview(timerDay)
@@ -234,11 +266,11 @@ let button = UIButton()
         */
         let onakinSwitch = ud.bool(forKey: "onakinSwitch")
         if onakinSwitch == false{
-        topButton.setTitle("始める", for: .normal)
+        mainButton.setTitle("始める", for: .normal)
             restartButton.isHidden = true
             timerDay.text = ""
         }else{
-             topButton.setTitle("再開する", for: .normal)
+             mainButton.setTitle("再開する", for: .normal)
             
             restartButton.setTitle("最初から始める", for:.normal)
             restartButton.setTitleColor(.black, for: .normal)
@@ -249,90 +281,17 @@ let button = UIButton()
               restartButton.setTitleColor(UIColor.gray, for: .normal)
             restartButton.frame = CGRect(x: width/2-width/7, y: height*0.8, width: width/2, height: height / 20)
         }
-        topButton.setTitleColor(.black, for: .normal)
-       topButton.layer.borderWidth = 2
-         topButton.layer.borderColor = UIColor.gray.cgColor
-        topButton.layer.cornerRadius = 10
-        topButton.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-         topButton.setTitleColor(UIColor.gray, for: .normal)
-         topButton.frame = CGRect(x: width/2-width/7, y: height*2/3, width: width/2, height: height / 20)
+        mainButton.setTitleColor(.black, for: .normal)
+       mainButton.layer.borderWidth = 2
+         mainButton.layer.borderColor = UIColor.gray.cgColor
+        mainButton.layer.cornerRadius = 10
+        mainButton.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
+         mainButton.setTitleColor(UIColor.gray, for: .normal)
+         mainButton.frame = CGRect(x: width/2-width/7, y: height*2/3, width: width/2, height: height / 20)
         
     }
     
     
-    var timerDayText = "0"
-   
-    static var day = 0
-    
-    @objc func timerCounter(){
-                
-                let f = DateFormatter()
-                f.dateStyle = .short
-                f.timeStyle = .none
-                f.locale = Locale(identifier: "ja_JP")
-                let strStartTime = f.string(from: startTime)
-                f.dateFormat = "yyyy/MM/dd"
-                var mutCurrentTime : TimeInterval = 0
-                if let mutStartTime = f.date(from: strStartTime) {
-                  mutCurrentTime = Date().timeIntervalSince(mutStartTime)
-                   // print("strStartTime:\(strStartTime)")
-    //print("mutStartTime:\(mutStartTime)")
-                    
-                }
-                let mutatedDay = (Int)(fmod((mutCurrentTime/86400),365))
-                print("mutCurrentTime:\(mutCurrentTime)")
-                ViewController.day = mutatedDay
-                /*
-                let currentTime = Date().timeIntervalSince(startTime)
-                
-                let day = (Int)(fmod((currentTime/86400),365))
-                let hour = (Int)(fmod((currentTime/3600),24))
-                let minute = (Int)(fmod((currentTime/60),60))
-                //let second = (Int)(fmod(currentTime,60))
-                
-                let sHour = String(format:"%02d",hour)
-                let sMinute = String(format:"%02d",minute)
-                //let sSecond = String(format:"%02d",second)
-                */
-                /*
-        switch mutatedDay {
-        case 0:
-            ViewController.level = 0
-        case 1:
-            ViewController.level = 1
-        case 2...3:
-            ViewController.level = 2
-        case 4...6:
-            ViewController.level = 3
-        case 7...9:
-            ViewController.level = 4
-        case 10...12:
-            ViewController.level = 5
-        case 13...15:
-            ViewController.level = 6
-        case 16...19:
-            ViewController.level = 7
-        case 20...24:
-            ViewController.level = 8
-        case 25...29:
-            ViewController.level = 9
-        case 30...:
-        ViewController.level = 10
-        default:
-            ViewController.level = 0
-        }
-              */
-                timerDayText = "\(1 + mutatedDay)"
-                
-                
-                setUpLayout()
-                /*
-                     
-                timerHour.text = sHour
-                timerMinute.text = sMinute
-                timerSecond.text = sSecond
-                */
-            }
         
 }
 
