@@ -12,7 +12,7 @@ class BossViewController: UIViewController {
     
     
     
-    static var character = Character(name: "", level: 0,counter: 0)
+    static var character = Character(counter: 0)
     //static var actionNo = 0
     var counter = 0
     static var stage = 0
@@ -25,11 +25,9 @@ class BossViewController: UIViewController {
         
          counter = ud.integer(forKey: "counter.b")
         BossViewController.stage = ud.integer(forKey: "stage")
-       print("counter:\(counter)")
-        print("stage:\(BossViewController.stage)")
+       
         
-        
-        BossViewController.character = Character(name: "ボス猿", level:ViewController.level,counter:counter)
+        BossViewController.character = Character(counter:counter)
         characterCsvDM.sharedInstance.loadData()
         
         if let d = characterCsvDM.sharedInstance.nextData() {
@@ -79,11 +77,7 @@ class BossViewController: UIViewController {
           return button
     }()
   
-    private var backButton:UIButton = {
-    let button = UIButton()
-          button.addTarget(self, action: #selector(back(_:)), for: UIControl.Event.touchUpInside)
-          return button
-    }()
+    
     
     var point = 0
     
@@ -154,6 +148,13 @@ class BossViewController: UIViewController {
         self.loadView()
         self.viewDidLoad()
     }
+    
+    private var backButton:UIButton = {
+    let button = UIButton()
+          button.addTarget(self, action: #selector(back(_:)), for: UIControl.Event.touchUpInside)
+          return button
+    }()
+    
     @objc func back(_ sender:UIButton) {
         
         self.dismiss(animated: true, completion:nil)
