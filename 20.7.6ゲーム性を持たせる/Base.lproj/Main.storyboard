@@ -17,6 +17,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <segue destination="0P5-fb-TIi" kind="show" identifier="resetSegue" id="FUA-IU-H25"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -32,10 +35,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="FPS-QD-Rnh"/>
                     </view>
+                    <navigationItem key="navigationItem" id="fBf-lQ-mZA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyX-uy-Cpj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="-596"/>
+            <point key="canvasLocation" x="873" y="119"/>
         </scene>
     </scenes>
 </document>
