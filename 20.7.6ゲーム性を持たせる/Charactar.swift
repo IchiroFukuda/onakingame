@@ -11,16 +11,15 @@ import Foundation
 
 class Character {
     
-    var name : String
-    var level : Int
+    
     var counter : Int
     
-    init(name n : String,level l: Int , counter c : Int){
-        self.name = n
-        self.level = l
+    init(counter c : Int){
+      
         self.counter = c
     }
 }
+ 
 class characterCsvData{
         //プロパティのこと
         //var sentenceValue : String
@@ -59,17 +58,8 @@ class characterCsvDM{
             let character = BossViewController.character
             index = BossViewController.stage * 100 + character.counter * 10
            
-            var n = ""
-            switch character.name {
-            case  "ボス猿" : n = "Boss"
-            case  "雌猿" : n = "Boss"
-                case  "仙猿" : n = "Boss"
-                case  "ライフ" : n = "Boss"
-                default : n = "エラー"
-            }
-            
             //csvファイルを閲覧するためのキーが手に入る。
-            guard let csvFilePath = Bundle.main.path(forResource: n,ofType: "csv") else {
+            guard let csvFilePath = Bundle.main.path(forResource: "Boss",ofType: "csv") else {
                 print("csvファイルが存在しません")
                 return
                 
@@ -83,11 +73,7 @@ class characterCsvDM{
                   //  let sentenceLine = line
                     
                     //objectData= sentenceLine つまり、objectDataに文が入る。さらにこれはmuramuraData型に変換される。ここで、muramuraDataクラスのsentenceValueには文が入る。
-                    var point1 = 0
-                    var point2 = 0
-                    guard index + 9 >= 0 && index + 9 < csvLines.count else { return }
-                    if let value1 : Int = Int(csvLines[index + 8]) {point1 = value1}
-                    if let value2 : Int = Int(csvLines[index + 9]) {point2 = value2}
+                   
                 
                     objectData  = characterCsvData(image0: csvLines[index], comment0: csvLines[index + 1], button1: csvLines[index + 2], button2: csvLines[index + 3])
             
