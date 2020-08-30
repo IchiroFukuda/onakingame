@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="_0_7_6ケ_ーム性を持たせる" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="main" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="ViewController" customModule="_0_7_6ケ_ーム性を持たせる" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,6 +40,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyX-uy-Cpj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="873" y="119"/>
+        </scene>
+        <!--Next View Controller-->
+        <scene sceneID="VAp-ch-BeD">
+            <objects>
+                <viewController storyboardIdentifier="next" id="EHg-K9-aso" customClass="NextViewController" customModule="_0_7_6ケ_ーム性を持たせる" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7Qg-Lm-h5M">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="r2w-Fs-cmo"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fZj-8h-hri" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1626" y="118"/>
+        </scene>
+        <!--Game Over View Controller-->
+        <scene sceneID="TmL-wj-mX7">
+            <objects>
+                <viewController storyboardIdentifier="GameOver" id="12i-V5-w4b" customClass="GameOverViewController" customModule="_0_7_6ケ_ーム性を持たせる" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Le-zo-wgg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="SJp-yl-l0r"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YRm-5S-uxH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2332" y="119"/>
         </scene>
     </scenes>
 </document>
