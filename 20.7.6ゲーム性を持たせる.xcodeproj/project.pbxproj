@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83513B8724F70C7800E7A1AE /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83513B8624F70C7800E7A1AE /* NextViewController.swift */; };
+		83513B8924FA813F00E7A1AE /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83513B8824FA813F00E7A1AE /* GameOverViewController.swift */; };
 		C25466F224C2D302000427AC /* Charactar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25466F124C2D302000427AC /* Charactar.swift */; };
 		C25466F424C2E5C7000427AC /* Boss.csv in Resources */ = {isa = PBXBuildFile; fileRef = C25466F324C2E5C7000427AC /* Boss.csv */; };
 		C279835024B3441C00DED031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279834F24B3441C00DED031 /* AppDelegate.swift */; };
@@ -17,8 +19,6 @@
 		C279835C24B3442500DED031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C279835A24B3442500DED031 /* LaunchScreen.storyboard */; };
 		C279836724B3442500DED031 /* _0_7_6__________Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279836624B3442500DED031 /* _0_7_6__________Tests.swift */; };
 		C279837224B3442500DED031 /* _0_7_6__________UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279837124B3442500DED031 /* _0_7_6__________UITests.swift */; };
-		C279838024B4B7FE00DED031 /* text.csv in Resources */ = {isa = PBXBuildFile; fileRef = C279837F24B4B7FE00DED031 /* text.csv */; };
-		C279838224B4B82200DED031 /* class.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279838124B4B82200DED031 /* class.swift */; };
 		C279838424B7425800DED031 /* BossViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C279838324B7425800DED031 /* BossViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		83513B8624F70C7800E7A1AE /* NextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
+		83513B8824FA813F00E7A1AE /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		C25466F124C2D302000427AC /* Charactar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charactar.swift; sourceTree = "<group>"; };
 		C25466F324C2E5C7000427AC /* Boss.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Boss.csv; sourceTree = "<group>"; };
 		C279834C24B3441C00DED031 /* 20.7.6ゲーム性を持たせる.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20.7.6ゲーム性を持たせる.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,8 +58,6 @@
 		C279836D24B3442500DED031 /* 20.7.6ゲーム性を持たせるUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "20.7.6ゲーム性を持たせるUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C279837124B3442500DED031 /* _0_7_6__________UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "_0_7_6__________UITests.swift"; sourceTree = "<group>"; };
 		C279837324B3442500DED031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C279837F24B4B7FE00DED031 /* text.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = text.csv; sourceTree = "<group>"; };
-		C279838124B4B82200DED031 /* class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = class.swift; sourceTree = "<group>"; };
 		C279838324B7425800DED031 /* BossViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BossViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,11 +113,11 @@
 				C279835124B3441C00DED031 /* SceneDelegate.swift */,
 				C279835324B3441C00DED031 /* ViewController.swift */,
 				C279838324B7425800DED031 /* BossViewController.swift */,
+				83513B8624F70C7800E7A1AE /* NextViewController.swift */,
+				83513B8824FA813F00E7A1AE /* GameOverViewController.swift */,
 				C279835524B3441C00DED031 /* Main.storyboard */,
 				C25466F124C2D302000427AC /* Charactar.swift */,
-				C279837F24B4B7FE00DED031 /* text.csv */,
 				C25466F324C2E5C7000427AC /* Boss.csv */,
-				C279838124B4B82200DED031 /* class.swift */,
 				C279835824B3442500DED031 /* Assets.xcassets */,
 				C279835A24B3442500DED031 /* LaunchScreen.storyboard */,
 				C279835D24B3442500DED031 /* Info.plist */,
@@ -251,7 +251,6 @@
 				C279835924B3442500DED031 /* Assets.xcassets in Resources */,
 				C279835724B3441C00DED031 /* Main.storyboard in Resources */,
 				C25466F424C2E5C7000427AC /* Boss.csv in Resources */,
-				C279838024B4B7FE00DED031 /* text.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,10 +275,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C279838224B4B82200DED031 /* class.swift in Sources */,
 				C279838424B7425800DED031 /* BossViewController.swift in Sources */,
+				83513B8724F70C7800E7A1AE /* NextViewController.swift in Sources */,
 				C25466F224C2D302000427AC /* Charactar.swift in Sources */,
 				C279835424B3441C00DED031 /* ViewController.swift in Sources */,
+				83513B8924FA813F00E7A1AE /* GameOverViewController.swift in Sources */,
 				C279835024B3441C00DED031 /* AppDelegate.swift in Sources */,
 				C279835224B3441C00DED031 /* SceneDelegate.swift in Sources */,
 			);
