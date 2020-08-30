@@ -23,21 +23,26 @@ class BossViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         counter = ud.integer(forKey: "counter.b")
-        BossViewController.stage = ud.integer(forKey: "stage")
-       
+          counter = ud.integer(forKey: "counter.b")
+         BossViewController.stage = ud.integer(forKey: "stage")
         
-        BossViewController.character = Character(counter:counter)
-        characterCsvDM.sharedInstance.loadData()
+         
+         BossViewController.character = Character(counter:counter)
+         characterCsvDM.sharedInstance.loadData()
+         
+         if let d = characterCsvDM.sharedInstance.nextData() {
+             Data = d
+         }
         
-        if let d = characterCsvDM.sharedInstance.nextData() {
-            Data = d
-        }
-       
-        setUpLayout()
+         setUpLayout()
+        
+         self.view.addBackground(name: "背景1-1")
+        
         
         // Do any additional setup after loading the view.
     }
+    
+   
     let imageView = UIImageView()
     func monkeyImage(){
         // ⦿ UIViewの上にUIImageViewを貼り付けます。
@@ -82,7 +87,7 @@ class BossViewController: UIViewController {
     var point = 0
     
     @objc func button1(_ sender:UIButton) {
-       ViewController.day = 35//テスト
+       ViewController.day = 12//テスト
         switch BossViewController.stage {
         case 0 : 
             stage0_b1()
@@ -108,14 +113,16 @@ class BossViewController: UIViewController {
             return
         }
         //if counter < 39 { counter += 1}
+        
         ud.set(counter, forKey: "counter.b")
         ud.set(BossViewController.stage, forKey: "stage")
+       
         self.loadView()
         self.viewDidLoad()
     }
     var deathPoint = 0
     @objc func button2(_ sender:UIButton) {
-         ViewController.day = 35//テスト
+         ViewController.day = 12//テスト
         switch BossViewController.stage{
         
         case 0 :
@@ -157,7 +164,8 @@ class BossViewController: UIViewController {
     
     @objc func back(_ sender:UIButton) {
         
-        self.dismiss(animated: true, completion:nil)
+       let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
+        self.present(secondViewController, animated: true, completion: nil)
     }
    
    func setUpLayout(){
@@ -179,28 +187,29 @@ class BossViewController: UIViewController {
     
                
                 textLabel.text  = Data.comment0
-               textLabel.frame = CGRect(x:0, y:height*0.4, width:width, height:height/4)
+               textLabel.frame = CGRect(x:0, y:height*0.5, width:width, height:height/4)
                      
                textLabel.font = UIFont.systemFont(ofSize: height/40)
                textLabel.textAlignment = .center
                textLabel.numberOfLines = 0
+                textLabel.textColor = .white
                
                 button1.setTitle(Data.button1, for: .normal)
-               button1.setTitleColor(.black, for: .normal)
-              button1.layer.borderWidth = 2
-                button1.layer.borderColor = UIColor.red.cgColor
-               button1.layer.cornerRadius = 10
-               button1.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-                button1.setTitleColor(UIColor.red, for: .normal)
+                button1.setTitleColor(.white, for: .normal)
+                button1.layer.borderWidth = 2
+                button1.layer.borderColor = UIColor.white.cgColor
+                button1.layer.cornerRadius = 10
+                button1.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
+                
     button1.frame = CGRect(x: width/2-width*4/9, y: height*6.2/9, width: width*8/9, height: height / 20)
                
     button2.setTitle(Data.button2, for: .normal)
-                button2.setTitleColor(.black, for: .normal)
+                button2.setTitleColor(.white, for: .normal)
               button2.layer.borderWidth = 2
-                button2.layer.borderColor = UIColor.blue.cgColor
+                button2.layer.borderColor = UIColor.white.cgColor
                 button2.layer.cornerRadius = 10
                 button2.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-                button2.setTitleColor(UIColor.blue, for: .normal)
+              
     button2.frame = CGRect(x:  width/2-width*4/9, y: height*7/9, width: width*8/9, height: self.view.frame.height / 20)
     
                 backButton.setTitle("戻る", for: .normal)
@@ -224,19 +233,17 @@ class BossViewController: UIViewController {
               else {counter = 2}
             
             case 2://気配がする→歩く
-                BossViewController.stage = 1
-                counter = 0
+                //counter = 0
                 deathPoint = 0
+                let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                self.present(secondViewController, animated: true, completion: nil)
+                
           case 3://休んだ→歩く
               if ViewController.day < 1 {counter = 1}
               else {counter = 2}
           case 4://後ろから襲われ、殺された。→最初から始める
-              self.dismiss(animated: true, completion:nil)
-              ud.removeObject(forKey: "start")
-              counter = 0
-              BossViewController.stage = 0
-              ud.set(false,forKey: "onakinSwitch")
-          
+            
+            GameOver()
           default:
               return
           }
@@ -247,13 +254,16 @@ class BossViewController: UIViewController {
         if deathPoint < 5{
         switch counter {
         case 0://アフリカ西部→休む
-            if ViewController.day < 1 {counter = 3; deathPoint += 1}
-        
+            counter = 3
+            if ViewController.day < 1 {deathPoint += 1}
+            
         case 1://歩いた→休む
-            if ViewController.day < 1 {counter = 3; deathPoint += 1}
+            counter = 3
+            if ViewController.day < 1 {deathPoint += 1}
           
         case 3://休んださらに休む
-            if ViewController.day < 1 {counter = 3; deathPoint += 1}
+            counter = 3
+            if ViewController.day < 1 { deathPoint += 1}
           
         default:
             return
@@ -267,22 +277,21 @@ class BossViewController: UIViewController {
         switch counter {
           case 0://誰かいそうだ→次へ
               counter = 1
-          case 1://見ねー顔だな→助けを
-              if ViewController.day < 2 {counter = 2}
-              else {counter = 3}
+              case 1:
+              counter = 2
             
-            case 2://他を当たれ→分かった
+          case 2://見ねー顔だな→助けを
+              if ViewController.day < 2 {counter = 3}
+              else {counter = 4}
+            
+            case 3://他を当たれ→分かった
                 counter = 0
-          case 3://ボスに話してくる→次へ
-            BossViewController.stage = 2
-            counter = 0
-          case 4://ひとり死んでいった→次へ
-            self.dismiss(animated: true, completion:nil)
-                      ud.removeObject(forKey: "start")
-                      counter = 0
-                      BossViewController.stage = 0
-                      ud.set(false,forKey: "onakinSwitch")
-          
+          case 4://ボスに話してくる→次へ
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+           // counter = 0
+          case 5://ひとり死んでいった→次へ
+           GameOver()
           default:
               return
           }
@@ -292,8 +301,8 @@ class BossViewController: UIViewController {
         
         if deathPoint != 5{
         switch counter {
-        case 1://見ねー顔だな→逃げる
-            counter = 4
+        case 2://見ねー顔だな→逃げる
+            counter = 5
           
         default:
             return
@@ -317,23 +326,16 @@ class BossViewController: UIViewController {
           case 4 ://ボスが待ってる→会うのやめとく
            counter = 5
           case 5://ひとり死んでいった→次へ
-            self.dismiss(animated: true, completion:nil)
-                      ud.removeObject(forKey: "start")
-                      counter = 0
-                      BossViewController.stage = 0
-                      ud.set(false,forKey: "onakinSwitch")
+             GameOver()
         case 6://ボスザルと話す
             if ViewController.day < 5 {counter = 7}
             else {counter = 8}
         case 7://首が吹き飛ぶ→次へ
-            self.dismiss(animated: true, completion:nil)
-            ud.removeObject(forKey: "start")
-            counter = 0
-            BossViewController.stage = 0
-            ud.set(false,forKey: "onakinSwitch")
+          GameOver()
         case 8 :
-            BossViewController.stage = 3
-            counter = 0
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+           // counter = 0
           default:
               return
           }
@@ -370,24 +372,17 @@ class BossViewController: UIViewController {
            counter = 5
           case 5://話にならねーわ→次へ
             
-            self.dismiss(animated: true, completion:nil)
-                      ud.removeObject(forKey: "start")
-                      counter = 0
-                      BossViewController.stage = 0
-                      ud.set(false,forKey: "onakinSwitch")
+            GameOver()
         case 6://38個!?次へ
             counter = 7
         case 7://首が吹き飛ぶ→次へ
             counter = 8
         case 8 ://友達になる次へ
-            BossViewController.stage = 4
-            counter = 0
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+          //  counter = 0
         case 9 ://友達になる次へ
-        self.dismiss(animated: true, completion:nil)
-        ud.removeObject(forKey: "start")
-        counter = 0
-        BossViewController.stage = 0
-        ud.set(false,forKey: "onakinSwitch")
+            GameOver()
           default:
               return
           }
@@ -422,8 +417,9 @@ class BossViewController: UIViewController {
           case 4 ://特殊能力→次へ
            counter = 5
           case 5://楽しみにしている。次へ。
-            BossViewController.stage = 5
-            counter = 0
+              let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+            //counter = 0
         
         
           default:
@@ -450,25 +446,24 @@ class BossViewController: UIViewController {
                 counter = 4
             }
           case 3://攻撃が外れる次へ
-            self.dismiss(animated: true, completion:nil)
-            ud.removeObject(forKey: "start")
-            counter = 0
-            BossViewController.stage = 0
-            ud.set(false,forKey: "onakinSwitch")
-            
+           GameOver()
           case 4 ://攻撃が入る→次へ
-           counter = 5
-          case 5://逃げろ！次へ。
-            counter = 6
-          case 6://逃げた。次へ。
-          counter = 7
-          case 7://もう追ってこない。次へ。
-            counter = 8
-            case 8://もう追ってこない。次へ。
+           counter = 6
+        
+        case 5://攻撃が入る→次へ
+        counter = 6
+            
+          case 6://逃げろ！次へ。
+            counter = 7
+          case 7://逃げた。次へ。
+          counter = 8
+          case 8://もう追ってこない。次へ。
             counter = 9
             case 9://もう追ってこない。次へ。
-            BossViewController.stage = 6
-            counter = 0
+          
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+           // counter = 0
           default:
               return
           }
@@ -482,7 +477,7 @@ class BossViewController: UIViewController {
             
             counter = 3
         }else{
-            counter = 4
+            counter = 5
         }
         default:
                 return
@@ -500,13 +495,13 @@ class BossViewController: UIViewController {
           case 2://涙がたまる次へ
            counter = 3
           case 3://涙が落ちる
-            counter = 4
-          case 4 ://涙が手に落ちる→次へ
-            if ViewController.day < 15 {counter = 5}
-            else{counter = 6}
+             if ViewController.day < 15 {counter = 0}
+             else{counter = 4}
+          case 4 ://涙が落ちる→次へ
+           counter = 5
             
           case 5://傷がそのまま→
-            counter = 1
+            counter = 6
           case 6://傷が治る→次へ
           counter = 7
           case 7://お前、もしかして。次へ
@@ -514,8 +509,9 @@ class BossViewController: UIViewController {
             case 8://もう追ってこない。次へ。
             counter = 9
             case 9://もう追ってこない。次へ。
-            BossViewController.stage = 7
-            counter = 0
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+           // counter = 0
           default:
               return
           }
@@ -555,16 +551,12 @@ class BossViewController: UIViewController {
           case 3://皆んな一生懸命働いた
             counter = 2
           case 4 ://やめた！
-             self.dismiss(animated: true, completion:nil)
-                       ud.removeObject(forKey: "start")
-                       counter = 0
-                       BossViewController.stage = 0
-                       ud.set(false,forKey: "onakinSwitch")
-                       
+            GameOver()
             
           case 5://むれが再建
-            BossViewController.stage = 8
-            counter = 0
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+            //counter = 0
          
           default:
               return
@@ -601,26 +593,23 @@ class BossViewController: UIViewController {
               counter = 4
             case 4 ://ザコを簡単に倒す
                counter = 5
-              
             case 5://あいつがボスだs
-                if ViewController.day < 25{counter=6}
-                else {counter=7}
-          case 6:
-            self.dismiss(animated: true, completion:nil)
-                                  ud.removeObject(forKey: "start")
-                                  counter = 0
-                                  BossViewController.stage = 0
-                                  ud.set(false,forKey: "onakinSwitch")
-          case 7://倒す
+            
+            if ViewController.day < 25{counter=6}
+            else {counter=7}
+            case 6://殴る→次へ
+                counter = 9
+         
+          case 7://頬骨を粉砕
             counter = 8
             
           case 8:
-            counter = 9
+               let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                         self.present(secondViewController, animated: true, completion: nil)
+           // counter = 0
             
-        case 9:
-        BossViewController.stage = 9
-        counter = 0
-            
+         case 9:
+                 GameOver()
             
             default:
                 return
@@ -655,8 +644,9 @@ class BossViewController: UIViewController {
             counter = 9
             
         case 9:
-        BossViewController.stage = 10
-        counter = 0
+           let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "next") as! NextViewController
+                     self.present(secondViewController, animated: true, completion: nil)
+       // counter = 0
             
             
             default:
@@ -675,6 +665,16 @@ class BossViewController: UIViewController {
                        }
                      
       }
+    
+    func GameOver(){
+            ud.removeObject(forKey: "start")
+           // counter = 0
+           // BossViewController.stage = 0
+            ud.set(false,forKey: "onakinSwitch")
+        let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "GameOver") as! GameOverViewController
+        self.present(secondViewController, animated: true, completion: nil)
+
+    }
     
     /*
     // MARK: - Navigation
