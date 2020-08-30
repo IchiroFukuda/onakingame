@@ -12,9 +12,20 @@ class ViewController: UIViewController {
 
     let ud = UserDefaults.standard
  
-   
+   var commentArray = ["時は250万年前、人類が繁栄していなかった頃、アフリカ西部で怪我をして歩く一頭のゴリラがいた。","1","2","3","4","5","6","7","8","9","10"]
     
+    private lazy var commentLabel: UILabel = {
+        let label = UILabel()
+        
+        return label
+    }()
     private lazy var timerDay: UILabel = {
+        let label = UILabel()
+        
+        return label
+    }()
+    
+    private lazy var stepLabel: UILabel = {
         let label = UILabel()
         
         return label
@@ -136,6 +147,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let onakinSwitch = ud.bool(forKey: "onakinSwitch")
+               
+               if self.timer != nil{
+                       self.timer.invalidate()
+               
+                   }
+               if onakinSwitch == true{
+                      
+                   timerStart()
+                   }
+                   
+               
+                setUpLayout()
+                 
+               self.view.addBackground(name: "背景1-1")
+        
         print("super.viewDidLoad()")
         
         // Do any additional setup after loading the view.
@@ -145,20 +172,7 @@ class ViewController: UIViewController {
         print("viewWillAppear")
         //monkeyImage()
         
-        let onakinSwitch = ud.bool(forKey: "onakinSwitch")
-        
-        if self.timer != nil{
-                self.timer.invalidate()
-        
-            }
-        if onakinSwitch == true{
-               
-            timerStart()
-            }
-            
-        
-         setUpLayout()
-          
+       
           
     }
     var startTime = Date()
@@ -204,7 +218,7 @@ class ViewController: UIViewController {
                      
                  }
                  let mutatedDay = (Int)(fmod((mutCurrentTime/86400),365))
-                 print("mutCurrentTime:\(mutCurrentTime)")
+                
                  ViewController.day = mutatedDay
                  /*
                  let currentTime = Date().timeIntervalSince(startTime)
@@ -238,18 +252,45 @@ class ViewController: UIViewController {
         //view.addSubview(pointLabel)
         view.addSubview(mainButton)
         view.addSubview(restartButton)
-        
+        view.addSubview(commentLabel)
         view.addSubview(timerDay)
+        view.addSubview(stepLabel)
         let width = view.bounds.size.width
+        let height = view.bounds.size.height
         
         timerDay.frame = CGRect(x:0, y:100, width:width, height:width)
-        timerDay.font = UIFont.systemFont(ofSize: width/2)
+        timerDay.font = UIFont.systemFont(ofSize: width/15)
         timerDay.numberOfLines = 0
+        timerDay.textColor = UIColor.white
         timerDay.textAlignment = NSTextAlignment.center
-        timerDay.text =  timerDayText
+        timerDay.text =  "\(timerDayText)日目"
+        
+        let stage = ud.integer(forKey: "stage")
+        
+        commentLabel.frame = CGRect(x:0, y:height/3, width:width, height:height/3)
+        commentLabel.font = UIFont.systemFont(ofSize: width/20)
+        commentLabel.numberOfLines = 0
+        commentLabel.textColor = UIColor.white
+        commentLabel.textAlignment = NSTextAlignment.left
+        commentLabel.text =  commentArray[stage]
 
         
-        let height = view.bounds.size.height
+        
+        
+        
+        
+        stepLabel.frame = CGRect(x:0, y:height/10, width:width, height:height/7)
+        
+        stepLabel.numberOfLines = 0
+        stepLabel.textAlignment = NSTextAlignment.center
+        stepLabel.text =  "Step \(stage+1)"
+        stepLabel.textColor = UIColor.white
+        stepLabel.font = UIFont(name: "BradleyHandITCTT-Bold", size: height / 7.5)
+        
+
+        
+       
+        
         /*
         csvLabel.frame = CGRect(x:0, y:height*0.4, width:width, height:height/4)
               
@@ -273,21 +314,19 @@ class ViewController: UIViewController {
              mainButton.setTitle("再開する", for: .normal)
             
             restartButton.setTitle("最初から始める", for:.normal)
-            restartButton.setTitleColor(.black, for: .normal)
+            restartButton.setTitleColor(.white, for: .normal)
             restartButton.layer.borderWidth = 2
-              restartButton.layer.borderColor = UIColor.gray.cgColor
+              restartButton.layer.borderColor = UIColor.white.cgColor
              restartButton.layer.cornerRadius = 10
              restartButton.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-              restartButton.setTitleColor(UIColor.gray, for: .normal)
-            restartButton.frame = CGRect(x: width/2-width/7, y: height*0.8, width: width/2, height: height / 20)
+            restartButton.frame = CGRect(x: width/2-width/4, y: height*0.8, width: width/2, height: height / 20)
         }
-        mainButton.setTitleColor(.black, for: .normal)
+        mainButton.setTitleColor(.white, for: .normal)
        mainButton.layer.borderWidth = 2
-         mainButton.layer.borderColor = UIColor.gray.cgColor
+         mainButton.layer.borderColor = UIColor.white.cgColor
         mainButton.layer.cornerRadius = 10
         mainButton.titleLabel?.font = UIFont.systemFont(ofSize: view.bounds.size.height/40)
-         mainButton.setTitleColor(UIColor.gray, for: .normal)
-         mainButton.frame = CGRect(x: width/2-width/7, y: height*2/3, width: width/2, height: height / 20)
+         mainButton.frame = CGRect(x: width/2-width/4, y: height*2/3, width: width/2, height: height / 20)
         
     }
     
@@ -295,3 +334,23 @@ class ViewController: UIViewController {
         
 }
 
+extension UIView {
+    func addBackground(name: String) {
+        // スクリーンサイズの取得
+        let width = UIScreen.main.bounds.size.width
+        let height = UIScreen.main.bounds.size.height
+
+        // スクリーンサイズにあわせてimageViewの配置
+        let imageViewBackground = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        //imageViewに背景画像を表示
+        imageViewBackground.image = UIImage(named: name)
+
+        // 画像の表示モードを変更。
+        imageViewBackground.contentMode = UIView.ContentMode.scaleAspectFill
+
+        // subviewをメインビューに追加
+        self.addSubview(imageViewBackground)
+        // 加えたsubviewを、最背面に設置する
+        self.sendSubviewToBack(imageViewBackground)
+    }
+}
